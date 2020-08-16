@@ -33,6 +33,6 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     install_requires=[
-        'django_eveonline_connector', 'requests',
+        'requests', 'django-singleton-admin-2'
     ]
 )
