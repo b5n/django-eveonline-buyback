@@ -9,7 +9,7 @@ Appraise Buyback Items
 {% endblock %}
 
 {% block content %}
-<p>Total {{ total }}</p>
+<p>Total: {{ total }}</p>
 <form method="post" action="{% url 'django-eveonline-buyback' %}">
   {% csrf_token %}
   General buyback rate: <input type="number" name="general_buyback_rate" value={{ buyback_settings.general_buyback_rate }} step="0.01" required id="id_general_buyback_rate">
