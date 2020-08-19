@@ -18,13 +18,13 @@ def buyback(request, total=0):
             general, blue = sorted_items
             general_total = get_evepraisal(general, general_buyback_rate)
             blue_total = get_bluepraisal(blue, blue_loot_buyback_rate)
-            total = general_total + blue_total
+            total = round((general_total + blue_total), 2)
     else:
         form = EveBuyback()
 
     context = {
         'buyback_settings': get_buyback_settings(),
-        'total': round(total, 2),
+        'total': total,
         'form': form
     }
     return render(request, 'adminlte/buyback.html', context)
@@ -45,7 +45,7 @@ def item_sorter(submission):
 
 def get_evepraisal(submission, rate):
     if submission is not '':
-        url = url = 'https://evepraisal.com/appraisal'
+        url = 'https://evepraisal.com/appraisal'
         market = 'jita'
         payload = {
             'User-Agent': 'django-eveonline-buyback/0.0.1 b@bnunez.com',
@@ -56,8 +56,8 @@ def get_evepraisal(submission, rate):
         appraisal_id = id_request.headers['X-Appraisal-Id']
         appraisal_url = f'https://evepraisal.com/a/{appraisal_id}.json'
         result = requests.get(appraisal_url).json()
-        total = (result['totals']['buy'])
-        return Decimal(total) * rate
+        total = Decimal(result['totals']['buy'])
+        return total * rate
     else:
         return 0
 
@@ -65,20 +65,13 @@ def get_evepraisal(submission, rate):
 def get_bluepraisal(submission, rate):
     total = 0
     if submission is not '':
-        print(submission)
         buyback_settings = get_buyback_settings()
         for line in submission:
-            print(line)
             item_name = line.split('\t')[0].replace(
                 ' ', '_').strip().lower() + '_price'
-            print(item_name)
             item_quantity = int(line.split('\t')[1])
-            print(item_quantity)
             item_price = getattr(buyback_settings, item_name)
-            print(item_price)
             total += item_price * item_quantity
-            print(total)
-            print(total * rate)
     return total * rate
 
 
