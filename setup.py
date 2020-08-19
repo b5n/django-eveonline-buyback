@@ -33,6 +33,8 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
     ],
     install_requires=[
-        'requests', 'django-singleton-admin-2'
+        'wheel',
+        'requests',
+        'django-singleton-admin-2'
     ]
 )
