@@ -1,4 +1,0 @@
-Hail S	1000
-Sisters Core Scanner Probe	8
-Neural Network Analyzer		1
-Sleeper Drone AI Nexus		6

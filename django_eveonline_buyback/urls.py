@@ -1,5 +1,6 @@
-from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path
+from django_eveonline_buyback import views
 
 urlpatterns = [
+    path('buyback/', views.buyback, name="django-eveonline-buyback")
 ]
