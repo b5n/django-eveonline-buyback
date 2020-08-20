@@ -7,7 +7,10 @@ from django.contrib.auth.decorators import login_required
 
 
 @login_required
-def buyback(request, total=0):
+def buyback(request):
+    total = 0
+    general_total = 0
+    blue_total = 0
     if request.method == 'POST':
         form = EveBuyback(request.POST)
         if form.is_valid():
@@ -25,6 +28,8 @@ def buyback(request, total=0):
     context = {
         'buyback_settings': get_buyback_settings(),
         'total': total,
+        'general_total': general_total,
+        'blue_total': blue_total,
         'form': form
     }
     return render(request, 'adminlte/buyback.html', context)
@@ -64,7 +69,7 @@ def get_evepraisal(submission, rate):
 
 def get_bluepraisal(submission, rate):
     total = 0
-    if submission is not '':
+    if len(submission) > 0:
         buyback_settings = get_buyback_settings()
         for line in submission:
             item_name = line.split('\t')[0].replace(
@@ -72,7 +77,9 @@ def get_bluepraisal(submission, rate):
             item_quantity = int(line.split('\t')[1])
             item_price = getattr(buyback_settings, item_name)
             total += item_price * item_quantity
-    return total * rate
+        return total * rate
+    else:
+        return 0
 
 
 def get_blue_loot_types():

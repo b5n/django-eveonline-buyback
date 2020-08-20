@@ -10,12 +10,14 @@ Appraise Buyback Items
 
 {% block content %}
 <p>Total: {{ total }}</p>
+<p>General: {{ general_total }}</p>
+<p>Blue loot: {{ blue_total}}</p>
 <form method="post" action="{% url 'django-eveonline-buyback' %}">
   {% csrf_token %}
   General buyback rate: <input type="number" name="general_buyback_rate" value={{ buyback_settings.general_buyback_rate }} step="0.01" required id="id_general_buyback_rate">
   Blue loot buyback rate: <input type="number" name="blue_loot_buyback_rate" value={{ buyback_settings.blue_loot_buyback_rate }} step="0.01" required id="id_blue_loot_buyback_rate">
   <p>Item list: </p><textarea name="item_list" cols="50" rows="20" required id="id_item_list"></textarea>
-  <p><button type="submit" class="pull-right btn btn-success">Submit</button></p>
+  <p><button type="submit" class="btn btn-success">Submit</button></p>
 </form>
 {% endblock %}
 
