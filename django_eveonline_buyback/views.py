@@ -26,13 +26,13 @@ def buyback(request):
         form = EveBuyback()
 
     context = {
-        'buyback_settings': get_buyback_settings(),
+        'buyback_settings': BuybackSettings.get_instance(),
         'total': total,
         'general_total': general_total,
         'blue_total': blue_total,
         'form': form
     }
-    return render(request, 'adminlte/buyback.html', context)
+    return render(request, 'django_eveonline_buyback/adminlte/buyback.html', context)
 
 
 def item_sorter(submission):
@@ -92,5 +92,4 @@ def get_blue_loot_types():
 
 
 def get_buyback_settings():
-    buyback_settings = BuybackSettings()
-    return buyback_settings
+    return BuybackSettings.get_instance()
