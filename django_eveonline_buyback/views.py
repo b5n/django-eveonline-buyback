@@ -40,7 +40,7 @@ def item_sorter(submission):
     blue_buyback = []
     general_buyback = ''
     for line in submission.splitlines():
-        item_name = line.split('\t')[0]
+        item_name = re.sub(r'\b\d+\b', '', line).strip()
         if item_name.lower() in str(get_blue_loot_types()):
             blue_buyback.append(line)
         else:
