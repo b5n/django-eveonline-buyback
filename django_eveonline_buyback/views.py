@@ -1,3 +1,4 @@
+import re
 import requests
 from decimal import Decimal
 from django.shortcuts import render
@@ -70,12 +71,11 @@ def get_evepraisal(submission, rate):
 def get_bluepraisal(submission, rate):
     total = 0
     if len(submission) > 0:
-        buyback_settings = get_buyback_settings()
         for line in submission:
-            item_name = line.split('\t')[0].replace(
-                ' ', '_').strip().lower() + '_price'
-            item_quantity = int(line.split('\t')[1])
-            item_price = getattr(buyback_settings, item_name)
+            item_quantity = int(re.findall(r'\b\d+\b', line)[0])
+            item_name = re.sub(
+                r'\b\d+\b', '', line).strip().replace(' ', '_').lower() + '_price'
+            item_price = getattr(BuybackSettings.get_instance(), item_name)
             total += item_price * item_quantity
         return total * rate
     else:
@@ -83,13 +83,8 @@ def get_bluepraisal(submission, rate):
 
 
 def get_blue_loot_types():
-    buyback_settings = get_buyback_settings()
-    blue_loot_types_raw = [field.name for field in buyback_settings._meta.get_fields()[
+    blue_loot_types_raw = [field.name for field in BuybackSettings.get_instance()._meta.get_fields()[
         1:5]]
     blue_loot_types = [x.replace('_', ' ').replace(
         'price', '').strip() for x in blue_loot_types_raw]
     return blue_loot_types
-
-
-def get_buyback_settings():
-    return BuybackSettings.get_instance()
