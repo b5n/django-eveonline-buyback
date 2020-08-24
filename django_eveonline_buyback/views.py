@@ -72,7 +72,11 @@ def get_bluepraisal(submission, rate):
     total = 0
     if len(submission) > 0:
         for line in submission:
-            item_quantity = int(re.findall(r'\b\d+\b', line)[0])
+            item_quantity = re.search(r'\b\d+\b', line)
+            if item_quantity:
+                item_quantity = int(item_quantity.group())
+            else:
+                item_quantity = 1
             item_name = re.sub(
                 r'\b\d+\b', '', line).strip().replace(' ', '_').lower() + '_price'
             item_price = getattr(BuybackSettings.get_instance(), item_name)
