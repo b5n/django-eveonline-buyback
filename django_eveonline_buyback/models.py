@@ -14,7 +14,7 @@ class BuybackSettings(models.Model):
 
     @staticmethod
     def get_instance():
-        return BuybackSettings.objects.get_or_create(pk=0)[0]
+        return BuybackSettings.objects.get_or_create(pk=1)[0]
 
     def __str__(self):
         return "Buyback Settings"
