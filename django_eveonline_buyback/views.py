@@ -15,8 +15,8 @@ def buyback(request):
     if request.method == 'POST':
         form = EveBuyback(request.POST)
         if form.is_valid():
-            general_buyback_rate = form.cleaned_data['general_buyback_rate']
-            blue_loot_buyback_rate = form.cleaned_data['blue_loot_buyback_rate']
+            general_buyback_rate = BuybackSettings.get_instance().general_buyback_rate
+            blue_loot_buyback_rate = BuybackSettings.get_instance().blue_loot_buyback_rate
             item_list = form.cleaned_data['item_list']
             sorted_items = item_sorter(item_list)
             general, blue = sorted_items
@@ -63,7 +63,7 @@ def get_evepraisal(submission, rate):
         appraisal_url = f'https://evepraisal.com/a/{appraisal_id}.json'
         result = requests.get(appraisal_url).json()
         total = Decimal(result['totals']['buy'])
-        return total * rate
+        return float(total) * rate
     else:
         return 0
 
