@@ -63,7 +63,7 @@ def get_evepraisal(submission, rate):
         appraisal_url = f'https://evepraisal.com/a/{appraisal_id}.json'
         result = requests.get(appraisal_url).json()
         total = Decimal(result['totals']['buy'])
-        return total * rate
+        return float(total) * rate
     else:
         return 0
 
