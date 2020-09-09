@@ -70,7 +70,7 @@ Appraise Buyback Items
 
     <div class="box-body">
         <div class="form-group">
-            <textarea class="form-control" name="item_list" id="buybackItems" rows="5" required
+            <textarea class="form-control" name="submission" id="buybackItems" rows="5" required
                 id="id_item_list"></textarea>
         </div>
     </div>
@@ -89,6 +89,10 @@ Appraise Buyback Items
     </div>
 </div>
 </form>
+
+{% if error %}
+<div class="row" style="color:red;">{{ error }}</div>
+{% endif %}
 
 {% endblock %}
 
