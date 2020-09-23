@@ -3,17 +3,14 @@ import logging
 import requests
 from decimal import Decimal
 from django.shortcuts import render
+from django.contrib import messages
 from django_eveonline_buyback.forms import EveBuyback
 from django_eveonline_buyback.models import BuybackSettings
 from django.contrib.auth.decorators import login_required
 
 
-error = None
-
-
 @login_required
 def buyback(request):
-    global error
     total = 0
     general_total = 0
     blue_total = 0
@@ -29,7 +26,12 @@ def buyback(request):
                     submission.splitlines()[0])
                 sorted_items = item_sorter(submission, contract_format)
                 general, blue = sorted_items
-                general_total = get_evepraisal(general, general_buyback_rate)
+                try:
+                    general_total = get_evepraisal(
+                        general, general_buyback_rate)
+                except ValueError as err:
+                    logging.error(err)
+                    messages.error(request, err)
                 blue_total = get_bluepraisal(
                     blue, blue_loot_buyback_rate, contract_format)
                 total = round((general_total + blue_total), 2)
@@ -45,7 +47,6 @@ def buyback(request):
         'general_total': general_total,
         'blue_total': blue_total,
         'form': form,
-        'error': error
     }
 
     return render(request, 'django_eveonline_buyback/adminlte/buyback.html', context)
@@ -54,7 +55,7 @@ def buyback(request):
 def is_contract_format(first_item):
     try:
         contract_format = re.search(
-            r'\b\w+\b[ +|\t+]\b\d+\b[ +|\t+]\b\w+\b', first_item)
+            r'\b\w+\b[ +|\t+]\b\d+\b[ +|\t+]\b\w+\b', first_item.replace(',', ''))
     except Exception as err:
         logging.error(err)
         raise
@@ -69,12 +70,13 @@ def item_sorter(submission, contract_format):
     try:
         for line in submission.splitlines():
             if contract_format:
-                item = re.search(r'.*\b\d+\b', line).group()
+                item = re.search(r'.*\b\d+\b', line.replace(',', '')).group()
                 item_name = re.sub(r'\b\d+\b', '', item).strip()
             else:
-                item_name = re.sub(r'\b\d+\b', '', line).strip()
+                item_name = re.sub(
+                    r'\b\d+\b', '', line.replace(',', '')).strip()
             if item_name.lower() in str(get_blue_loot_types()):
-                blue_buyback.append(line)
+                blue_buyback.append(line.replace(',', ''))
             else:
                 general_buyback = general_buyback + f'{line}\n'
     except Exception as err:
@@ -87,18 +89,13 @@ def item_sorter(submission, contract_format):
 
 
 def get_evepraisal(submission, rate):
-    global error
     total = 0
 
-    try:
-        blue_loot_types = get_blue_loot_types()
-        for blue_loot_type in blue_loot_types:
-            blue_loot = re.search(rf'{blue_loot_type}', submission.lower())
-            if blue_loot:
-                raise ValueError('Blue loot items not sorted correctly, your total may be inaccurate. For best results please copy and paste directly from in game. If you believe you have received this message in error please contact your administrator.')
-    except ValueError as err:
-        logging.error(err)
-        error = err
+    blue_loot_types = get_blue_loot_types()
+    for blue_loot_type in blue_loot_types:
+        blue_loot = re.search(rf'{blue_loot_type}', submission.lower())
+        if blue_loot:
+            raise ValueError('Blue loot items not sorted correctly, your total may be inaccurate. For best results please copy and paste directly from in game. If you believe you have received this message in error please contact your administrator.')
 
     try:
         if submission != '':
