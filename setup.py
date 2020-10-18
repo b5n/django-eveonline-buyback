@@ -17,9 +17,9 @@ setup(
     description='A simple Django extension providing an easy way to appraise buyback items in bulk.',
     long_description=README,
     long_description_content_type='text/markdown',
-    url='https://github.com/KryptedGaming/django-eveonline-buyback',
-    author='b5n',
-    author_email='b@bnunez.com',
+    url='https://github.com/b5n/django-eveonline-buyback',
+    author='Princep Machinor',
+    author_email='princep@1337h4x0r420.com',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
