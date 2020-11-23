@@ -25,7 +25,7 @@ settings_binding = SettingsBinding(
 sidebar_binding = SidebarBinding(
     package_name=app_config.name,
     parent_menu_item={
-        "fa_icon": 'fa-shopping-cart',
+        "fa_icon": 'fa-store',
         "name": "Buyback",
         "url": reverse('django-eveonline-buyback'), 
     },
