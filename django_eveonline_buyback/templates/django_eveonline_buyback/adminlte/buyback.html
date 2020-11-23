@@ -12,33 +12,33 @@ Appraise Buyback Items
 {% block content %}
 <div class="row">
     <div class="col-sm-6 col-xs-12">
-        <div class="info-card">
+        <div class="info-box">
             <!-- Apply any bg-* class to to the icon to color it -->
-            <span class="info-card-icon bg-yellow"><i class="fa fa-cog"></i></span>
-            <div class="info-card-content">
-                <span class="info-card-text">General Rate</span>
-                <span class="info-card-number">{{buyback_settings.general_buyback_rate|stringformat:'0.2f'}}</span>
+            <span class="info-box-icon bg-yellow"><i class="text-white fa fa-cog"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">General Rate</span>
+                <span class="info-box-number">{{buyback_settings.general_buyback_rate|stringformat:'0.2f'}}</span>
             </div>
-            <!-- /.info-card-content -->
+            <!-- /.info-box-content -->
 
         </div>
     </div>
     <div class="col-sm-6 col-xs-12">
-        <div class="info-card">
+        <div class="info-box">
             <!-- Apply any bg-* class to to the icon to color it -->
-            <span class="info-card-icon bg-blue"><i class="fa fa-diamond"></i></span>
-            <div class="info-card-content">
-                <span class="info-card-text">Blue Loot Rate</span>
-                <span class="info-card-number">{{buyback_settings.blue_loot_buyback_rate|stringformat:'0.2f'}}</span>
+            <span class="info-box-icon bg-blue"><i class="fa fa-gem"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Blue Loot Rate</span>
+                <span class="info-box-number">{{buyback_settings.blue_loot_buyback_rate|stringformat:'0.2f'}}</span>
             </div>
-            <!-- /.info-card-content -->
+            <!-- /.info-box-content -->
 
         </div>
     </div>
 
 </div>
 
-<div class="card card-warning">
+<div class="card card-info card-outline">
     <div class="card-header with-border">
         <h3 class="card-title">Instructions</h3>
     </div>
@@ -63,7 +63,7 @@ Appraise Buyback Items
 
 <form method="post" action="{% url 'django-eveonline-buyback' %}">
 {% csrf_token %}
-<div class="card card-info ">
+<div class="card card-success card-outline">
     <div class="card-header with-border">
         <h3 class="card-title">Item Appraisal</h3>
     </div>
@@ -76,12 +76,14 @@ Appraise Buyback Items
     </div>
     
     <div class="card-footer">
-        <div class="pull-left">
+        <div class="float-left">
             <button type="submit" class="btn btn-success">Appraise Items</button>
         </div>
-        <div class="pull-right">
+        <div class="float-right">
             <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Contract Price</span>
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Contract Price</span>
+                  </div>
                 <input type="text" class="form-control" value="{{total|intcomma}}" disabled aria-describedby="basic-addon1">
             </div>
         </div>
