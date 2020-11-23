@@ -10,7 +10,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-eveonline-buyback',
-    version='0.0.2',
+    version=__import__('django_eveonline_buyback').__version__,
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',
