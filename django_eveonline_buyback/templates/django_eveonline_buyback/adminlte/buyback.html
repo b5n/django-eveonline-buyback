@@ -46,7 +46,8 @@ Appraise Buyback Items
         <ol>
             <li>Prepare your items in the staging system.</li>
             <li>Paste your items to receive their appraisal value.</li>
-            <li>Create an item exchange contract to <input type="text" value="{{buyback_settings.contract_corporation.name}}" disabled></input></li>
+            <li>Create an item exchange contract to <input type="text" value="{{buyback_settings.contract_entity.name}}"
+                    disabled></input></li>
             <li>The price of the contract should be the value you receive from the tool below</li>
         </ol>
 
@@ -62,34 +63,35 @@ Appraise Buyback Items
 </div>
 
 <form method="post" action="{% url 'django-eveonline-buyback' %}">
-{% csrf_token %}
-<div class="card card-success card-outline">
-    <div class="card-header with-border">
-        <h3 class="card-title">Item Appraisal</h3>
-    </div>
+    {% csrf_token %}
+    <div class="card card-success card-outline">
+        <div class="card-header with-border">
+            <h3 class="card-title">Item Appraisal</h3>
+        </div>
 
-    <div class="card-body">
-        <div class="form-group">
-            <textarea class="form-control" name="submission" id="buybackItems" rows="5" required
-                id="id_item_list"></textarea>
-        </div>
-    </div>
-    
-    <div class="card-footer">
-        <div class="float-left">
-            <button type="submit" class="btn btn-success">Appraise Items</button>
-        </div>
-        <div class="float-right">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Contract Price</span>
-                  </div>
-                <input type="text" class="form-control" value="{{total|intcomma}}" disabled aria-describedby="basic-addon1">
+        <div class="card-body">
+            <div class="form-group">
+                <textarea class="form-control" name="submission" id="buybackItems" rows="5" required
+                    id="id_item_list"></textarea>
             </div>
         </div>
-        
+
+        <div class="card-footer">
+            <div class="float-left">
+                <button type="submit" class="btn btn-success">Appraise Items</button>
+            </div>
+            <div class="float-right">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Contract Price</span>
+                    </div>
+                    <input type="text" class="form-control" value="{{total|intcomma}}" disabled
+                        aria-describedby="basic-addon1">
+                </div>
+            </div>
+
+        </div>
     </div>
-</div>
 </form>
 {% endblock %}
 
